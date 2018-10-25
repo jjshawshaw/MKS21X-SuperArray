@@ -19,9 +19,13 @@ public class SuperArray{
     return (size == 0);
   }
 
-  public void add(String value) {
+  public boolean add(String value) {
+    if (size < data.length){
       data[size] = value;
       size++;
+      return true;
+    }
+    return false;
   }
 
   public String toString(){
@@ -48,4 +52,20 @@ public class SuperArray{
     if (index < 0 || index >= size()) return null;
     else return data[index];
   }
+
+  public String set(int index, String value){
+    String pop = data[index];
+    if (index < 0 || index >= size()) return null;
+    else data[index] = value;
+    return pop;
+  }
+
+  private void resize() {
+    String[] temp = new String[data.length * 2 + 1];
+    for (int i = 0; i < size; i++) {
+      temp[i] = data[i];
+    }
+    data = temp;
+  }
+
 }
