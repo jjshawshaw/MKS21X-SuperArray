@@ -20,12 +20,10 @@ public class SuperArray{
   }
 
   public boolean add(String value) {
-    if (size < data.length){
-      data[size] = value;
-      size++;
-      return true;
-    }
-    return false;
+    if (data.length <= size) resize();
+    data[size] = value;
+    size++;
+    return true;
   }
 
   public String toString(){
@@ -83,10 +81,42 @@ public class SuperArray{
   }
 
   public int lastIndexOf(String target){
-    for (int i = size - 1; i >= 0; i++) {
+    for (int i = size - 1; i >= 0; i--) {
       if (data[i].equals(target)) return i;
     }
     return -1;
+  }
+
+  public void add(int index, String value) {
+    if (size == data.length) resize();
+    String[] output =  new String[size + 1];
+    for (int i = 0; i <= size; i++) {
+      if (i < index) output[i] = data[i];
+      if (i == index) output[i] = value;
+      if (i > index) output[i - 1] = data[i];
+    }
+    size++;
+    data = output;
+  }
+
+  public String remove(int index) {
+    String[] output = new String[size + 1];
+    if (index < 0 || index > size) return null;
+    String out = data[index];
+    for (int i = index; i < size; i++) {
+      if (i == index) out = data[i];
+      data[i] = data[i+1];
+    }
+    size--;
+    return out;
+  }
+
+  public boolean remove(String target){
+    if (contains(target)) {
+      remove(indexOf(target));
+      return true;
+    }
+    return false;
   }
 
 }
