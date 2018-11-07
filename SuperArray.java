@@ -1,3 +1,4 @@
+
 public class SuperArray{
   private String[] data;
   private int size;
@@ -20,7 +21,7 @@ public class SuperArray{
     return size;
   }
 
-  public Boolean isEmpty(){
+  public boolean isEmpty(){
     return (size == 0);
   }
 
@@ -72,10 +73,12 @@ public class SuperArray{
   }
 
   public boolean contains(String target){
-    for (int i = 0; i < size; i++) {
-      if (data[i].equals(target)) return true;
+    for (int  i = 0; i < size(); i++){
+    if (data[i].equals(target)){
+      return true;
     }
-    return false;
+  }
+  return false;
   }
 
   public int indexOf(String target){
@@ -95,37 +98,45 @@ public class SuperArray{
   public void add(int index, String value) {
     if (0 <= index && index <= size) {
       if (size == data.length) resize();
-      String[] output =  new String[size + 1];
-      for (int i = 0; i <= size; i++) {
-        if (i < index) output[i] = data[i];
-        if (i == index) output[i] = value;
-        if (i > index) output[i - 1] = data[i];
-      }
       size++;
+      String[] output =  new String[size];
+      for (int i=0; i < index; i++){
+        output[i] = data[i];
+      }
+      for (int i = index; i < size -1; i++){
+        output[i + 1] = data[i];
+      }
+      output[index] = value;
       data = output;
     }
     else throw new IndexOutOfBoundsException();
-
   }
 
   public String remove(int index) {
-    if (0 <= index && index < size) {
+		String[] output = new String[size + 1];
+    if (index < 0 || index > size) throw new IndexOutOfBoundsException();
+    else {
       String out = data[index];
-      for (int i = index; i < size - 1; i++) {
-        data[i] = data[i + 1];
+      for (int i = index; i < size-1; i++) {
+        if (i == index) out = data[i];
+        data[i] = data[i+1];
       }
       size--;
       return out;
     }
-    else throw new IndexOutOfBoundsException();
+
   }
 
+
+
+
   public boolean remove(String target){
-    if (contains(target)) {
+		if (contains(target)) {
       remove(indexOf(target));
       return true;
     }
     return false;
+
   }
 
 }
